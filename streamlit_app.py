@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 
-st.title("Grocery List")
+st.title("Grocery List App")
 st.write(
     "Click on a recipe button for information on the given recipe"
 )
@@ -11,43 +11,19 @@ file_url = 'https://raw.githubusercontent.com/brinoceros484/grocery_list/refs/he
 
 df=pd.read_csv(file_url)
 
-unique_meals = df['Meal Name'].unique()
-
-# for meal in unique_meals:
-#     if st.button(meal):
-#         st.write(f"The ingredients for {meal} are:")
-#         ingredients = df[df['Meal Name'] == meal]['Ingrediants']
-#         ingredients_table = st.table(ingredients)
-
+unique_meals = df['Meal Name'].unique()      
 
 for meal in unique_meals:
-     if st.button(meal):
-         ingredients = df[df['Meal Name'] == meal]['Ingrediants']
-         cookbook = df[df['Meal Name'] == meal]['Cookbook'].values[0]
-         st.write(f"{meal} is in **{cookbook}** and the ingredients are:")
-         ingredients_table = st.table(ingredients)        
+    row = df[df['Meal Name'] == meal].iloc[0]
+    img_path = row['Dish Picture']
 
-
-
-# recipes_df = pd.read_csv(r"C:\Users\BrianMathis\Downloads\RecipeGeneratorSheet1.csv")  # Replace with your CSV file name
-# recipes = recipes_df['Meal Name'].tolist()  # Replace with the correct column name
-
-# st.write(recipes)
-# st.print()
-
-
-# column_left, column_right = st.columns(2)
-# salmon = st.button("Salmon Teriyaki & Broccolini")
-# ravioli = st.button("Ravioli en Brodo")
-
-# column_right.ravioli
-
-
-
-
-# # if st.button("Salmon Teriyaki & Broccolini"):
-# #     st.write("Generate Recipe Info")
-
-# # if st.button("Ravioli en Brodo"):
-# #     st.write("Generate Recipe Info")
-
+    with st.container():
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image(img_path, use_container_width=True)
+        with col2:
+            if st.button(meal):
+                ingredients = df[df['Meal Name'] == meal]['Ingrediants']
+                cookbook = row['Cookbook']
+                st.write(f"{meal} is in **{cookbook}** and the ingredients are:")
+                st.table(ingredients)
