@@ -15,7 +15,16 @@ file_url = 'https://raw.githubusercontent.com/brinoceros484/grocery_list/refs/he
 
 df=pd.read_csv(file_url)
 
-unique_meals = df['Meal Name'].unique()      
+unique_meals = df['Meal Name'].unique()  
+
+unique_chefs = df['Chef'].unique()
+cols = st.columns(3)  # Adjust number of columns as needed
+
+for i, chef in enumerate(unique_chefs):
+    with cols[i % 3]:
+        st.button(chef)
+
+st.divider()
 
 for meal in unique_meals:
     row = df[df['Meal Name'] == meal].iloc[0]
