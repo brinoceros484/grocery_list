@@ -7,6 +7,10 @@ st.write(
     "Click on a recipe button for information on the given recipe"
 )
 
+st.write(
+    "Are there any Chefs you want to filter for?"
+)
+
 file_url = 'https://raw.githubusercontent.com/brinoceros484/grocery_list/refs/heads/main/RecipeGeneratorSheet1.csv'
 
 df=pd.read_csv(file_url)
