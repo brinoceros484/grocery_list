@@ -26,17 +26,32 @@ for i, chef in enumerate(unique_chefs):
 
 st.divider()
 
+
 for meal in unique_meals:
     row = df[df['Meal Name'] == meal].iloc[0]
     img_path = row['Dish Picture']
 
-    with st.container():
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            st.image(img_path, use_container_width=True)
-        with col2:
-            if st.button(meal):
-                ingredients = df[df['Meal Name'] == meal]['Ingrediants']
-                cookbook = row['Cookbook']
-                st.write(f"{meal} is in **{cookbook}** and the ingredients are:")
-                st.table(ingredients)
+    main_col1, main_col2 = st.columns(2)
+
+    with main_col1:
+        with st.container():
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                st.image(img_path, use_container_width=True)
+            with col2:
+                if st.button(meal):
+                    st.session_state[f"{meal}_clicked"] = True
+
+                if st.session_state.get(f"{meal}_clicked", False):
+                    ingredients = df[df['Meal Name'] == meal]['Ingrediants']
+                    cookbook = row['Cookbook']
+                    st.write(f"{meal} is in **{cookbook}** and the ingredients are:")
+                    st.table(ingredients)
+                    grocery_list = st.checkbox("Add to grocery list?", key=f"grocery_{meal}")
+                    if grocery_list:
+                        chosen_ingredients = ingredients
+
+    with main_col2:
+            st.write(chosen_ingredients)
+
+
