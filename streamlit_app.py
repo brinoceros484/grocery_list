@@ -71,6 +71,15 @@ if current_ingredients:
 else:
     st.write("No items yet. Select recipes above!")
 
+if current_ingredients:
+    grocery_text = "\n".join(sorted(current_ingredients))
+    st.text_area("Copy & Paste This into Reminders or Notes", grocery_text, height=200)
+
+st.download_button("📩 Download Grocery List as .txt", grocery_text, file_name="grocery_list.txt")
+
+
+
+
 
 
 
