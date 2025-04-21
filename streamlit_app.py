@@ -74,19 +74,3 @@ else:
 
 
 
-# with st.container():
-#         col1, col2 = st.columns([1, 3])
-#         with col1:
-#             st.image(img_path, use_container_width=True)
-#         with col2:
-#             expand = st.expander(meal)  # CHANGED from button to expander
-#             with expand:
-#                 st.write(f"{meal} is in **{cookbook}** and the ingredients are:")
-#                 st.table(ingredients)
-                
-#                 # NEW: Checkbox to add ingredients
-#                 checkbox = st.checkbox(f"Add {meal} to grocery list?", key=meal)
-#                 if checkbox:
-#                     st.session_state.selected_meals.add(meal)
-#                 else:
-#                     st.session_state.selected_meals.discard(meal)
