@@ -11,8 +11,8 @@ st.write(
     "Are there any Chefs you want to filter for?"
 )
 
-if 'grocery_list' not in st.session_state:
-    st.session_state.grocery_list = []
+if 'selected_meals' not in st.session_state:
+    st.session_state.selected_meals = set()
 
 file_url = 'https://raw.githubusercontent.com/brinoceros484/grocery_list/refs/heads/main/RecipeGeneratorSheet1.csv'
 
@@ -46,16 +46,26 @@ for meal in unique_meals:
                 st.table(ingredients)
                 
                 # NEW: Checkbox to add ingredients
-                if st.checkbox(f"Add {meal} to grocery list?", key=meal):
-                    for ingredient in ingredients:
-                        if ingredient not in st.session_state.grocery_list:
-                            st.session_state.grocery_list.append(ingredient)
+                checkbox = st.checkbox(f"Add {meal} to grocery list?", key=meal)
+                if checkbox:
+                    st.session_state.selected_meals.add(meal)
+                else:
+                    st.session_state.selected_meals.discard(meal)
 
-# NEW: Show grocery list
+
 st.divider()
 st.subheader("Your Grocery List:")
-if st.session_state.grocery_list:
-    #st.write(st.session_state.grocery_list)
-    st.table(st.session_state.grocery_list)
+
+current_ingredients = []
+
+for meal in st.session_state.selected_meals:
+    ingredients = df[df['Meal Name'] == meal]['Ingrediants'].tolist()
+    current_ingredients.extend(ingredients)
+
+# Optional: remove duplicates and clean formatting
+current_ingredients = list(set(current_ingredients))
+
+if current_ingredients:
+    st.table(current_ingredients)
 else:
     st.write("No items yet. Select recipes above!")
